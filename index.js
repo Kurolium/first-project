@@ -9,6 +9,7 @@ let cycle = 0
 let N = 1
 let M = "off"
 let P_Turn = 0
+let B_turn = 0
 
 function Start() {
   E_HP = 0
@@ -98,18 +99,18 @@ function Fight() {
       if (elementToCheck == "回復魔法") {
         H = My_HP + Math.floor(Math.random() * 5) + 10;
         My_HP = My_HP + H
-        if (My_HP >= 700) {
+        if (My_HP >= 2000) {
           alert(`あなたのHPは上限値です`)
-          My_HP = 700
+          My_HP = 2000
         } else {
           alert(`あなたはHPが${H}回復した`)
         }
       } else {
         H = My_HP + Math.floor(Math.random() * 25) + 10;
         My_HP = My_HP + H
-        if (My_HP >= 700) {
+        if (My_HP >= 2000) {
           alert(`あなたのHPは上限値です`)
-          My_HP = 700
+          My_HP = 2000
         } else {
           alert(`あなたはHPが${H}回復した`)
         }
@@ -163,6 +164,16 @@ function Fight() {
     if (E_HP == 0) {
 
       if (document.getElementById("Ename").textContent == "last boss") {
+        alert(`どうやた${B_turn}ターンで倒されてしまったようだ...`)
+        if(B_turn < 30) {
+          alert('そなたの実力なら、この私をも超える神すら倒せるかもしれん')
+          alert('やつは、リンゴに化けているから[くぁｗせｄｒｆｔｇｙふじこｌｐ]と唱えてやるといい')
+          alert('...')
+        } else {
+          alert('お前になら私より上のものを倒すことを願いたかったが...')
+          alert('せめて50ターン未満に倒せれば教えたのだが...')
+          alert('...')
+        }
         const dialog = document.getElementById("Clear");
         dialog.show();
         dialog.setAttribute("open","true")
@@ -240,6 +251,7 @@ function Fight() {
         }
 
       } else if (document.getElementById("Ename").textContent == "魔王") {
+        B_turn = B_turn + 1
         if (p == "yes") {
           damage = Math.floor(Math.random() * 50) + 2000
           alert(`${document.getElementById("Ename").textContent}は近くの自然や生命の力を奪い取ってビームを繰り出した`)
