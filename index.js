@@ -363,8 +363,9 @@ function Fight() {
           if (cycle == "0") {
             cycle = Math.floor(Math.random() * 3) + 1;  
           };
-          console.log(M)
+
           if (M == "on") {
+
             if (cycle == "1") {
               if (N == "1") {
                 alert("???は即死攻撃を放ってきた")
@@ -408,17 +409,40 @@ function Fight() {
         
               } else if (N == "4") {
                 const recoverly = Math.floor(Math.random() * 100) + 100
-              alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
-              alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
-              E_HP = E_HP + recoverly
+                alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
+                alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
+                E_HP = E_HP + recoverly
         
-              cycle = Math.floor(Math.random() * 3) + 1;  
-              N = 1
+                cycle = Math.floor(Math.random() * 3) + 1;  
+                N = 1
               }
         
             } if (cycle == "2") {
+
               if (N=="1") {
-                alert('様子を見てる')
+                const q = Math.floor(Math.random() * 2) + 1
+                if (q == "2") {
+                  alert('???はなけなしのお金でHPを減らしてきた')
+                  My_HP = 1
+                } else {
+                  alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
+                  const num = Math.floor(Math.random() * 5) + 5
+                  let y = 0
+                  for (let x = 0; x < num; x++) {
+                    damage = Math.floor(Math.random() * 5) + 5
+                    if (MODE == "カウンター") {
+                      damage = damage * 2 
+                      alert(`あなたは${damage}のダメージを跳ね返した`)
+                      E_HP = E_HP - damage
+                    } else if (MODE == "回避")  {
+                      alert('しかし、技を察知して回避した')
+                    } else {
+                      alert(`あなたは${damage}のダメージを受けた`)
+                      My_HP = My_HP - damage
+                      y = y + damage
+                    }
+                  }
+                }
               }
               if (N == "2") {
                 alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
@@ -489,7 +513,7 @@ function Fight() {
         
             } else if (cycle == "3") {
               if (N == "1") {
-                damage = Math.floor(Math.random() * 40) + 25 * Attack * E_Power
+                damage = Math.floor(Math.random() * 40) + 50
                 alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
                 if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
                   My_HP = My_HP - damage
