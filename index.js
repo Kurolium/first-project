@@ -11,6 +11,12 @@ let M = "off"
 let P_Turn = 0
 let B_turn = 0
 
+function rules() {
+  const dialog = document.getElementById("rules");
+  dialog.show()
+  dialog.setAttribute("open","true")
+}
+
 function Start() {
   E_HP = 0
   My_HP = 50
@@ -20,6 +26,8 @@ function Start() {
 };
 
 function Battle() {
+  document.getElementById("ver").remove()
+  document.getElementById("rule").remove()
   document.getElementById("open").remove();  
   let button = document.createElement("button")
   button.setAttribute('id','Word')
@@ -28,6 +36,9 @@ function Battle() {
   document.body.appendChild(button)
   document.getElementById("Ename").innerHTML = "りんご"
   E_HP = 15
+  if (Math.floor(Math.random() * 20) + 1 == 1) {
+    E_HP = 20000
+  }
   document.getElementById("title").innerHTML = "<img src='Enemy0.jpg'>"
   let HP = document.createElement("p")
   HP.setAttribute('id','HP')
@@ -45,7 +56,7 @@ function Fight() {
   const text = document.getElementById("Text").value
   const jsonData = {
     "悪口":"3",
-    "カウンター":"1",
+    "カウンター":"0",
     "パンチ": "5",
     "キック": "7",
     "チョップ":"10",
@@ -67,7 +78,7 @@ function Fight() {
     "死ね":"1",
     "炎魔法":"2500",
     "風魔法":"1200",
-    "ビッグバン":"3000",
+    "ビッグバン":Math.floor(Math.random() * 1000) + 2500,
     "くぁｗせｄｒｆｔｇｙふじこｌｐ":"0"
   };
 
@@ -164,7 +175,7 @@ function Fight() {
 
     if (E_HP <= 0) {
 
-      if (document.getElementById("Ename").textContent == "last boss") {
+      if (document.getElementById("Ename").textContent == "魔王") {
         alert(`どうやた${B_turn}ターンで倒されてしまったようだ...`)
         if(B_turn < 30) {
           alert('そなたの実力なら、この私をも超える神すら倒せるかもしれん')
@@ -255,316 +266,24 @@ function Fight() {
 
       } else if (document.getElementById("Ename").textContent == "魔王") {
         B_turn = B_turn + 1
-        if (p == "yes") {
-          damage = Math.floor(Math.random() * 50) + 2000
-          alert(`${document.getElementById("Ename").textContent}は近くの自然や生命の力を奪い取ってビームを繰り出した`)
-          if (MODE == "回避")  {
-            alert('しかし、技を察知して回避した')
-          } else {
-            alert(`あなたは${damage}のダメージを受けた`)
-            My_HP = My_HP - damage
-            E_HP = E_HP + damage
-          };
-
-          p = "no"
-
-        } else {
-          const pattern = Math.floor(Math.random() * 10) + 1
-
-          if (pattern == "1") {
-            damage = Math.floor(Math.random() * 25) + 30 * Attack * E_Power
-            alert(`${document.getElementById("Ename").textContent}は闇魔法を放ってきた`)
-            if (MODE == "回避")  {
-              alert('しかし、技を察知して回避した')
-            } else {
-              alert(`あなたは${damage}のダメージを受けた`)
-              My_HP = My_HP - damage
-            }
-
-          } else if (pattern == "2") {
-            damage = value * 2 * Attack * E_Power
-            alert(`${document.getElementById("Ename").textContent}はカウンターを仕掛けてきた`)
-            if (MODE == "カウンター") {
-              alert("特に効果はなかった")
-            } else if (MODE == "回避")  {
-              alert('しかし、技を察知して回避した')
-            } else {
-              alert(`あなたは${damage}のダメージを受けた`)
-              My_HP = My_HP - damage
-            }
-          
-          } else if (pattern == "3") {
-            const recoverly = Math.floor(Math.random() * 70) + 50 * Attack * E_Power
-            alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
-            alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
-            E_HP = E_HP + recoverly
-
-          } else if (pattern == "4") {
-            damage = Math.floor(Math.random() * 20) + 80 
-            alert(`${document.getElementById("Ename").textContent}は正拳突きを放ってきた`)
-            if (MODE == "カウンター") {
-              damage = damage * 2
-              alert(`あなたは${damage}のダメージを跳ね返した`)
-              E_HP = E_HP - damage
-            } else if (MODE == "回避")  {
-              alert('しかし、技を察知して回避した')
-            } else {
-              alert(`あなたは${damage}のダメージを受けた`)
-              My_HP = My_HP - damage
-            };
-
-          } else if (pattern == "5") {
-            alert(`${document.getElementById("Ename").textContent}は攻撃量上昇を発動した`)
-            E_Power = Attack * 4
-
-          } else if (pattern == "6") {
-            alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
-            const num = Math.floor(Math.random() * 5) + 7
-            let y = 0
-            for (let x = 0; x < num; x++) {
-              damage = Math.floor(Math.random() * 5) + 5 * Attack * Power
-              if (MODE == "カウンター") {
-                damage = damage * 2 
-                alert(`あなたは${damage}のダメージを跳ね返した`)
-                E_HP = E_HP - damage
-              } else if (MODE == "回避")  {
-                alert('しかし、技を察知して回避した')
-              } else {
-                alert(`あなたは${damage}のダメージを受けた`)
-                My_HP = My_HP - damage
-                y = y + damage
-              };
-            }
-            alert(`${num}回当たって、${y}のダメージを受けた`)
-
-          } else if (pattern == "7") {
-            alert(`${document.getElementById("Ename").textContent}はミラクルパンチを放った`)
-            damage = Math.floor(Math.random() * 30) + 20 * Attack * E_Power
-            if (MODE == "カウンター") {
-              damage = damage * 2
-              alert(`あなたは${damage}のダメージを跳ね返した`)
-              E_HP = E_HP - damage
-            } else if (MODE == "回避")  {
-              alert('しかし、技を察知して回避した')
-            } else {
-              alert(`${document.getElementById("Ename").textContent}は${damage}回復した`)
-              alert(`は${damage}のダメージを受けた`)
-              My_HP = My_HP - damage
-              E_HP = E_HP + damage
-            };
-
-          } else if (pattern == "8") {
-            alert(`${document.getElementById("Ename").textContent}は様子をうかがっている`)
-
-          } if (pattern == "9") {
-            damage = Math.floor(Math.random() * 40) + 25 * Attack * E_Power
-            alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
-            if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
-              My_HP = My_HP - damage
-              alert(`カウンターを読まれて${damage}のダメージを受けた`)
-            } else {
-              alert('しかし、当たらなかった')
-            };
-          
-          } else if (pattern == "10") {
-            alert(`${document.getElementById("Ename").textContent}は不気味に笑っている`)
-            p = "yes"
-          }
           E_HP = E_HP + 50
 
-        }   
+          if (Math.floor(Math.random() * 5) + 1) {
+            Last()
+          }
+
+          if (My_HP >= 0) {
+            Last()
+          }
+         
       } else {
         if (Math.floor(Math.random() * 2) + 1 == "2") {
           if (cycle == "0") {
             cycle = Math.floor(Math.random() * 3) + 1;  
           };
 
-          if (M == "on") {
+          Extra()
 
-            if (cycle == "1") {
-              if (N == "1") {
-                alert("???は即死攻撃を放ってきた")
-                damage = My_HP * 10
-                if (MODE == "カウンター") {
-                  damage = damage * 2
-                  alert(`あなたは${damage}のダメージを跳ね返した`)
-                  E_HP = E_HP - damage
-                } else if (MODE == "回避")  {
-                  alert('しかし、技を察知して回避した')
-                } else {
-                  alert(`あなたは${damage}のダメージを受けた`)
-                  My_HP = My_HP - damage
-                };
-        
-              } else if (N == "2") {
-                damage = value * 5
-                alert(`${document.getElementById("Ename").textContent}はカウンターを仕掛けてきた`)
-                if (MODE == "カウンター") {
-                  alert("特に効果はなかった")
-                } else if (MODE == "回避")  {
-                  alert('しかし、技を察知して回避した')
-                } else {
-                  alert(`あなたは${damage}のダメージを受けた`)
-                  My_HP = My_HP - damage
-                }
-        
-              } else if (N == "3") {
-                alert("???は即死攻撃を放ってきた")
-                damage = My_HP * 10
-                if (MODE == "カウンター") {
-                  damage = damage * 2
-                  alert(`あなたは${damage}のダメージを跳ね返した`)
-                  E_HP = E_HP - damage
-                } else if (MODE == "回避")  {
-                  alert('しかし、技を察知して回避した')
-                } else {
-                  alert(`あなたは${damage}のダメージを受けた`)
-                  My_HP = My_HP - damage
-                };
-        
-              } else if (N == "4") {
-                const recoverly = Math.floor(Math.random() * 100) + 100
-                alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
-                alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
-                E_HP = E_HP + recoverly
-        
-                
-              } else if (N == "5") {
-                damage = Math.floor(Math.random() * 50) + 100
-                alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
-                if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
-                  My_HP = My_HP - damage
-                  alert(`カウンターを読まれて${damage}のダメージを受けた`)
-                } else {
-                  alert('しかし、当たらなかった')
-                };
-                cycle = Math.floor(Math.random() * 3) + 1;  
-                N = 1
-              }
-        
-            } if (cycle == "2") {
-
-              if (N=="1") {
-                const q = Math.floor(Math.random() * 2) + 1
-                if (q == "2") {
-                  alert('???はなけなしのお金でHPを減らしてきた')
-                  My_HP = 1
-                } else {
-                  alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
-                  const num = Math.floor(Math.random() * 5) + 5
-                  let y = 0
-                  for (let x = 0; x < num; x++) {
-                    damage = Math.floor(Math.random() * 5) + 5
-                    if (MODE == "カウンター") {
-                      damage = damage * 2 
-                      alert(`あなたは${damage}のダメージを跳ね返した`)
-                      E_HP = E_HP - damage
-                    } else if (MODE == "回避")  {
-                      alert('しかし、技を察知して回避した')
-                    } else {
-                      alert(`あなたは${damage}のダメージを受けた`)
-                      My_HP = My_HP - damage
-                      y = y + damage
-                    }
-                  }
-                }
-              }
-              if (N == "2") {
-                alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
-                const num = Math.floor(Math.random() * 5) + 5
-                let y = 0
-                for (let x = 0; x < num; x++) {
-                  damage = Math.floor(Math.random() * 5) + 5
-                  if (MODE == "カウンター") {
-                    damage = damage * 2 
-                    alert(`あなたは${damage}のダメージを跳ね返した`)
-                    E_HP = E_HP - damage
-                  } else if (MODE == "回避")  {
-                    alert('しかし、技を察知して回避した')
-                  } else {
-                    alert(`あなたは${damage}のダメージを受けた`)
-                    My_HP = My_HP - damage
-                    y = y + damage
-                  };
-                }
-                alert(`${num}回当たって、${y}のダメージを受けた`)
-        
-              } else if (N == "3") {
-                alert("???は即死攻撃を放ってきた")
-                damage = My_HP * 10
-                if (MODE == "カウンター") {
-                  damage = damage * 2
-                  alert(`あなたは${damage}のダメージを跳ね返した`)
-                  E_HP = E_HP - damage
-                } else if (MODE == "回避")  {
-                  alert('しかし、技を察知して回避した')
-                } else {
-                  alert(`あなたは${damage}のダメージを受けた`)
-                  My_HP = My_HP - damage
-                };
-        
-              } else if (N == "4") {
-                alert("???は即死攻撃を放ってきた")
-                damage = My_HP * 10
-                if (MODE == "カウンター") {
-                  damage = damage * 2
-                  alert(`あなたは${damage}のダメージを跳ね返した`)
-                  E_HP = E_HP - damage
-                } else if (MODE == "回避")  {
-                  alert('しかし、技を察知して回避した')
-                } else {
-                  alert(`あなたは${damage}のダメージを受けた`)
-                  My_HP = My_HP - damage
-                };
-        
-              } else if (N == "5") {
-                damage = Math.floor(Math.random() * 30) + 70
-                alert(`${document.getElementById("Ename").textContent}は正拳突きを放ってきた`)
-                if (MODE == "カウンター") {
-                  damage = damage * 2
-                  alert(`あなたは${damage}のダメージを跳ね返した`)
-                  E_HP = E_HP - damage
-                } else if (MODE == "回避")  {
-                  alert('しかし、技を察知して回避した')
-                } else {
-                  alert(`あなたは${damage}のダメージを受けた`)
-                  My_HP = My_HP - damage
-                };
-        
-                cycle = Math.floor(Math.random() * 3) + 1;  
-                N = 1
-        
-              };
-        
-            } else if (cycle == "3") {
-              if (N == "1") {
-                damage = Math.floor(Math.random() * 40) + 50
-                alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
-                if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
-                  My_HP = My_HP - damage
-                  alert(`カウンターを読まれて${damage}のダメージを受けた`)
-                } else {
-                  alert('しかし、当たらなかった')
-                };
-              
-              } else if (N == "2") {
-                const recoverly = Math.floor(Math.random() * 200) + 100
-              alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
-                alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
-                E_HP = E_HP + recoverly
-        
-              } else if (N == "3") {
-                const recoverly = Math.floor(Math.random() * 200) + 100
-                alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
-                alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
-                E_HP = E_HP + recoverly
-        
-                cycle = Math.floor(Math.random() * 3) + 1;  
-                N = 1 
-            };
-          }
-             
-          }
           M = "on"
           E_HP = E_HP + 500
           N = N + 1
@@ -572,159 +291,12 @@ function Fight() {
         if (cycle == "0") {
           cycle = Math.floor(Math.random() * 3) + 1;  
         };
-        console.log(M)
-        if (M == "on") {
-          if (cycle == "1") {
-            if (N == "1") {
-              alert("???は即死攻撃を放ってきた")
-              damage = Math.round(My_HP * 10)
-              if (MODE == "カウンター") {
-                damage = damage * 2
-                alert(`あなたは${damage}のダメージを跳ね返した`)
-                E_HP = E_HP - damage
-              } else if (MODE == "回避")  {
-                alert('しかし、技を察知して回避した')
-              } else {
-                alert(`あなたは${damage}のダメージを受けた`)
-                My_HP = My_HP - damage
-              };
-      
-            } else if (N == "2") {
-              damage = value * 5
-              alert(`${document.getElementById("Ename").textContent}はカウンターを仕掛けてきた`)
-              if (MODE == "カウンター") {
-                alert("特に効果はなかった")
-              } else if (MODE == "回避")  {
-                alert('しかし、技を察知して回避した')
-              } else {
-                alert(`あなたは${damage}のダメージを受けた`)
-                My_HP = My_HP - damage
-              }
-      
-            } else if (N == "3") {
-              alert("???は即死攻撃を放ってきた")
-              damage = Math.round(My_HP * 10)
-              if (MODE == "カウンター") {
-                damage = damage * 2
-                alert(`あなたは${damage}のダメージを跳ね返した`)
-                E_HP = E_HP - damage
-              } else if (MODE == "回避")  {
-                alert('しかし、技を察知して回避した')
-              } else {
-                alert(`あなたは${damage}のダメージを受けた`)
-                My_HP = My_HP - damage
-              };
-      
-            } else if (N == "4") {
-              const recoverly = Math.floor(Math.random() * 100) + 100
-            alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
-            alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
-            E_HP = E_HP + recoverly
-      
-            cycle = Math.floor(Math.random() * 3) + 1;  
-            N = 1
-            } 
-      
-          } if (cycle == "2") {
-            if (N=="1") {
-              alert('様子を見てる')
-            }
-            if (N == "2") {
-              alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
-              const num = Math.floor(Math.random() * 5) + 5
-              let y = 0
-              for (let x = 0; x < num; x++) {
-                damage = Math.floor(Math.random() * 5) + 5
-                if (MODE == "カウンター") {
-                  damage = damage * 2 
-                  alert(`あなたは${damage}のダメージを跳ね返した`)
-                  E_HP = E_HP - damage
-                } else if (MODE == "回避")  {
-                  alert('しかし、技を察知して回避した')
-                } else {
-                  alert(`あなたは${damage}のダメージを受けた`)
-                  My_HP = My_HP - damage
-                  y = y + damage
-                };
-              }
-              alert(`${num}回当たって、${y}のダメージを受けた`)
-      
-            } else if (N == "3") {
-              alert("???は即死攻撃を放ってきた")
-              damage = Math.round(My_HP * 10)
-              if (MODE == "カウンター") {
-                damage = damage * 2
-                alert(`あなたは${damage}のダメージを跳ね返した`)
-                E_HP = E_HP - damage
-              } else if (MODE == "回避")  {
-                alert('しかし、技を察知して回避した')
-              } else {
-                alert(`あなたは${damage}のダメージを受けた`)
-                My_HP = My_HP - damage
-              };
-      
-            } else if (N == "4") {
-              alert("???は即死攻撃を放ってきた")
-              damage = Math.round(My_HP * 10)
-              if (MODE == "カウンター") {
-                damage = damage * 2
-                alert(`あなたは${damage}のダメージを跳ね返した`)
-                E_HP = E_HP - damage
-              } else if (MODE == "回避")  {
-                alert('しかし、技を察知して回避した')
-              } else {
-                alert(`あなたは${damage}のダメージを受けた`)
-                My_HP = My_HP - damage
-              };
-      
-            } else if (N == "5") {
-              damage = Math.floor(Math.random() * 30) + 70
-              alert(`${document.getElementById("Ename").textContent}は正拳突きを放ってきた`)
-              if (MODE == "カウンター") {
-                damage = damage * 2
-                alert(`あなたは${damage}のダメージを跳ね返した`)
-                E_HP = E_HP - damage
-              } else if (MODE == "回避")  {
-                alert('しかし、技を察知して回避した')
-              } else {
-                alert(`あなたは${damage}のダメージを受けた`)
-                My_HP = My_HP - damage
-              };
-      
-              cycle = Math.floor(Math.random() * 3) + 1;  
-              N = 1
-      
-            };
-      
-          } else if (cycle == "3") {
-            if (N == "1") {
-              damage = Math.floor(Math.random() * 40) + 25 * Attack * E_Power
-              alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
-              if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
-                My_HP = My_HP - damage
-                alert(`カウンターを読まれて${damage}のダメージを受けた`)
-              } else {
-                alert('しかし、当たらなかった')
-              };
-            
-            } else if (N == "2") {
-              const recoverly = Math.floor(Math.random() * 200) + 100
-            alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
-              alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
-              E_HP = E_HP + recoverly
-      
-            } else if (N == "3") {
-              const recoverly = Math.floor(Math.random() * 200) + 100
-              alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
-              alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
-              E_HP = E_HP + recoverly
-      
-              cycle = Math.floor(Math.random() * 3) + 1;  
-              N = 1 
-          };
+        
+        if (My_HP >= 0) {
+          Extra()
         }
-           
-        }
+
+
         M = "on"
         E_HP = E_HP + 500
         N = N + 1
@@ -755,7 +327,194 @@ function Back() {
   location.reload()
 };
 
-  
+function Extra() {
+  if (M == "on") {
+
+    if (cycle == "1") {
+      if (N == "1") {
+        alert("???は即死攻撃を放ってきた")
+        damage = My_HP * 10
+        if (MODE == "カウンター") {
+          damage = damage * 2
+          alert(`あなたは${damage}のダメージを跳ね返した`)
+          E_HP = E_HP - damage
+        } else if (MODE == "回避")  {
+          alert('しかし、技を察知して回避した')
+        } else {
+          alert(`あなたは${damage}のダメージを受けた`)
+          My_HP = My_HP - damage
+        };
+
+      } else if (N == "2") {
+        damage = value * 5
+        alert(`${document.getElementById("Ename").textContent}はカウンターを仕掛けてきた`)
+        if (MODE == "カウンター") {
+          alert("特に効果はなかった")
+        } else if (MODE == "回避")  {
+          alert('しかし、技を察知して回避した')
+        } else {
+          alert(`あなたは${damage}のダメージを受けた`)
+          My_HP = My_HP - damage
+        }
+
+      } else if (N == "3") {
+        alert("???は即死攻撃を放ってきた")
+        damage = My_HP * 10
+        if (MODE == "カウンター") {
+          damage = damage * 2
+          alert(`あなたは${damage}のダメージを跳ね返した`)
+          E_HP = E_HP - damage
+        } else if (MODE == "回避")  {
+          alert('しかし、技を察知して回避した')
+        } else {
+          alert(`あなたは${damage}のダメージを受けた`)
+          My_HP = My_HP - damage
+        };
+
+      } else if (N == "4") {
+        const recoverly = Math.floor(Math.random() * 100) + 100
+        alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
+        alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
+        E_HP = E_HP + recoverly
+
+        
+      } else if (N == "5") {
+        damage = Math.floor(Math.random() * 50) + 100
+        alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
+        if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
+          My_HP = My_HP - damage
+          alert(`カウンターを読まれて${damage}のダメージを受けた`)
+        } else {
+          alert('しかし、当たらなかった')
+        };
+        cycle = Math.floor(Math.random() * 3) + 1;  
+        N = 1
+      }
+
+    } if (cycle == "2") {
+
+      if (N=="1") {
+        const q = Math.floor(Math.random() * 2) + 1
+        if (q == "2") {
+          alert('???はなけなしのお金でHPを減らしてきた')
+          My_HP = 1
+        } else {
+          alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
+          const num = Math.floor(Math.random() * 5) + 5
+          let y = 0
+          for (let x = 0; x < num; x++) {
+            damage = Math.floor(Math.random() * 5) + 5
+            if (MODE == "カウンター") {
+              damage = damage * 2 
+              alert(`あなたは${damage}のダメージを跳ね返した`)
+              E_HP = E_HP - damage
+            } else if (MODE == "回避")  {
+              alert('しかし、技を察知して回避した')
+            } else {
+              alert(`あなたは${damage}のダメージを受けた`)
+              My_HP = My_HP - damage
+              y = y + damage
+            }
+          }
+        }
+      }
+      if (N == "2") {
+        alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
+        const num = Math.floor(Math.random() * 5) + 5
+        let y = 0
+        for (let x = 0; x < num; x++) {
+          damage = Math.floor(Math.random() * 5) + 5
+          if (MODE == "カウンター") {
+            damage = damage * 2 
+            alert(`あなたは${damage}のダメージを跳ね返した`)
+            E_HP = E_HP - damage
+          } else if (MODE == "回避")  {
+            alert('しかし、技を察知して回避した')
+          } else {
+            alert(`あなたは${damage}のダメージを受けた`)
+            My_HP = My_HP - damage
+            y = y + damage
+          };
+        }
+        alert(`${num}回当たって、${y}のダメージを受けた`)
+
+      } else if (N == "3") {
+        alert("???は即死攻撃を放ってきた")
+        damage = My_HP * 10
+        if (MODE == "カウンター") {
+          damage = damage * 2
+          alert(`あなたは${damage}のダメージを跳ね返した`)
+          E_HP = E_HP - damage
+        } else if (MODE == "回避")  {
+          alert('しかし、技を察知して回避した')
+        } else {
+          alert(`あなたは${damage}のダメージを受けた`)
+          My_HP = My_HP - damage
+        };
+
+      } else if (N == "4") {
+        alert("???は即死攻撃を放ってきた")
+        damage = My_HP * 10
+        if (MODE == "カウンター") {
+          damage = damage * 2
+          alert(`あなたは${damage}のダメージを跳ね返した`)
+          E_HP = E_HP - damage
+        } else if (MODE == "回避")  {
+          alert('しかし、技を察知して回避した')
+        } else {
+          alert(`あなたは${damage}のダメージを受けた`)
+          My_HP = My_HP - damage
+        };
+
+      } else if (N == "5") {
+        damage = Math.floor(Math.random() * 30) + 70
+        alert(`${document.getElementById("Ename").textContent}は正拳突きを放ってきた`)
+        if (MODE == "カウンター") {
+          damage = damage * 2
+          alert(`あなたは${damage}のダメージを跳ね返した`)
+          E_HP = E_HP - damage
+        } else if (MODE == "回避")  {
+          alert('しかし、技を察知して回避した')
+        } else {
+          alert(`あなたは${damage}のダメージを受けた`)
+          My_HP = My_HP - damage
+        };
+
+        cycle = Math.floor(Math.random() * 3) + 1;  
+        N = 1
+
+      };
+
+    } else if (cycle == "3") {
+      if (N == "1") {
+        damage = Math.floor(Math.random() * 40) + 50
+        alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
+        if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
+          My_HP = My_HP - damage
+          alert(`カウンターを読まれて${damage}のダメージを受けた`)
+        } else {
+          alert('しかし、当たらなかった')
+        };
+      
+      } else if (N == "2") {
+        const recoverly = Math.floor(Math.random() * 200) + 100
+      alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
+        alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
+        E_HP = E_HP + recoverly
+
+      } else if (N == "3") {
+        const recoverly = Math.floor(Math.random() * 200) + 100
+        alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
+        alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
+        E_HP = E_HP + recoverly
+
+        cycle = Math.floor(Math.random() * 3) + 1;  
+        N = 1 
+    };
+  }
+     
+  }
+}  
 
 function NEXT() {
   if (document.getElementById("Ename").textContent == "りんご") {
@@ -780,3 +539,120 @@ function NEXT() {
     document.getElementById("HP").innerHTML = `Your HP:${My_HP}`
   } 
 }
+
+function Last() {
+  if (p == "yes") {
+    damage = Math.floor(Math.random() * 50) + 2000
+    alert(`${document.getElementById("Ename").textContent}は近くの自然や生命の力を奪い取ってビームを繰り出した`)
+    if (MODE == "回避")  {
+      alert('しかし、技を察知して回避した')
+    } else {
+      alert(`あなたは${damage}のダメージを受けた`)
+      My_HP = My_HP - damage
+      E_HP = E_HP + damage
+    };
+
+    p = "no"
+
+  } else {
+    const pattern = Math.floor(Math.random() * 10) + 1
+
+    if (pattern == "1") {
+      damage = Math.floor(Math.random() * 25) + 30 * Attack * E_Power
+      alert(`${document.getElementById("Ename").textContent}は闇魔法を放ってきた`)
+      if (MODE == "回避")  {
+        alert('しかし、技を察知して回避した')
+      } else {
+        alert(`あなたは${damage}のダメージを受けた`)
+        My_HP = My_HP - damage
+      }
+
+    } else if (pattern == "2") {
+      damage = value * 2 * Attack * E_Power
+      alert(`${document.getElementById("Ename").textContent}はカウンターを仕掛けてきた`)
+      if (MODE == "カウンター") {
+        alert("特に効果はなかった")
+      } else if (MODE == "回避")  {
+        alert('しかし、技を察知して回避した')
+      } else {
+        alert(`あなたは${damage}のダメージを受けた`)
+        My_HP = My_HP - damage
+      }
+    
+    } else if (pattern == "3") {
+      const recoverly = Math.floor(Math.random() * 70) + 50 * Attack * E_Power
+      alert(`${document.getElementById("Ename").textContent}は回復魔法を使用した`)
+      alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
+      E_HP = E_HP + recoverly
+
+    } else if (pattern == "4") {
+      damage = Math.floor(Math.random() * 20) + 80 * Attack
+      alert(`${document.getElementById("Ename").textContent}は正拳突きを放ってきた`)
+      if (MODE == "カウンター") {
+        damage = damage * 2
+        alert(`あなたは${damage}のダメージを跳ね返した`)
+        E_HP = E_HP - damage
+      } else if (MODE == "回避")  {
+        alert('しかし、技を察知して回避した')
+      } else {
+        alert(`あなたは${damage}のダメージを受けた`)
+        My_HP = My_HP - damage
+      };
+
+    } else if (pattern == "5") {
+      alert(`${document.getElementById("Ename").textContent}は攻撃量上昇を発動した`)
+      E_Power = Attack * 4
+
+    } else if (pattern == "6") {
+      alert(`${document.getElementById("Ename").textContent}はつらら張りを発動した`)
+      const num = Math.floor(Math.random() * 5) + 7
+      let y = 0
+      for (let x = 0; x < num; x++) {
+        damage = Math.floor(Math.random() * 5) + 5 * Attack * Power
+        if (MODE == "カウンター") {
+          damage = damage * 2 
+          alert(`あなたは${damage}のダメージを跳ね返した`)
+          E_HP = E_HP - damage
+        } else if (MODE == "回避")  {
+          alert('しかし、技を察知して回避した')
+        } else {
+          alert(`あなたは${damage}のダメージを受けた`)
+          My_HP = My_HP - damage
+          y = y + damage
+        };
+      }
+      alert(`${num}回当たって、${y}のダメージを受けた`)
+
+    } else if (pattern == "7") {
+      alert(`${document.getElementById("Ename").textContent}はミラクルパンチを放った`)
+      damage = Math.floor(Math.random() * 30) + 20 * Attack * E_Power
+      if (MODE == "カウンター") {
+        damage = damage * 2
+        alert(`あなたは${damage}のダメージを跳ね返した`)
+        E_HP = E_HP - damage
+      } else if (MODE == "回避")  {
+        alert('しかし、技を察知して回避した')
+      } else {
+        alert(`${document.getElementById("Ename").textContent}は${damage}回復した`)
+        alert(`は${damage}のダメージを受けた`)
+        My_HP = My_HP - damage
+        E_HP = E_HP + damage
+      };
+
+    } else if (pattern == "8") {
+      alert(`${document.getElementById("Ename").textContent}は様子をうかがっている`)
+
+    } if (pattern == "9") {
+      damage = Math.floor(Math.random() * 40) + 25 * Attack * E_Power
+      alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
+      if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
+        My_HP = My_HP - damage
+        alert(`カウンターを読まれて${damage}のダメージを受けた`)
+      } else {
+        alert('しかし、当たらなかった')
+      };
+    
+    } else if (pattern == "10") {
+      alert(`${document.getElementById("Ename").textContent}は不気味に笑っている`)
+      p = "yes"
+    }}}

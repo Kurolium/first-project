@@ -49,18 +49,34 @@
     </dialog>
 
     <dialog id="K_O">
-        <div>相手を倒した<!DOCTYPE html></div>
+        <div>相手を倒した</div>
 
         <form method="dialog">
             <button onclick="NEXT()">次に進む</button>
         </form>
     </dialog>
 
+    <dialog id="rules">
+        <div>試合が始まるとWordというボタンが出ます。<br>
+            これを押すと、文字を打ち込むボックスが出てきます。<br>
+            ここに技の名前を打ち込みましょう(収録されていない言葉もあります)<br>
+            相手の技は一部を除いてすべて使うことができます。
+        </div>
+        <form method="dialog">
+            <button id="close">戻る</button>
+        </form>
+    </dialog>
+
     <!--最初の画面-->    <h1 id="title">Word Battle</h1>
+
 
     <p id="Ename"></p>
 
     <button id='open' onclick="Start()">スタート</button>
+
+    <button id="rule" onclick="rules()">遊び方</button>
+
+    <p id="ver">v1.0.9</p>
 
     <br>
 </body>
