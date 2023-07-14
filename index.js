@@ -148,11 +148,12 @@ function Fight() {
         document.getElementById("HP").innerHTML = `Your HP:${My_HP}`
       }
     } else {
-      E_HP = Math.max(0,E_HP - value);
+      E_HP = E_HP - value
       alert(`あなたは${elementToCheck}を繰り出した！！`)
       alert(`${value}のダメージ`);
       if (elementToCheck == "ミラクルパンチ") {
         const H = Math.round(value / 2)
+        My_HP = My_HP + H
         alert(`あなたはHPが${H}回復した`)
       };
     };
@@ -161,7 +162,7 @@ function Fight() {
       Power = 2
     }
 
-    if (E_HP == 0) {
+    if (E_HP <= 0) {
 
       if (document.getElementById("Ename").textContent == "last boss") {
         alert(`どうやた${B_turn}ターンで倒されてしまったようだ...`)
@@ -177,7 +178,9 @@ function Fight() {
         const dialog = document.getElementById("Clear");
         dialog.show();
         dialog.setAttribute("open","true")
+
       } else {
+        console.log('aa')
         const dialog = document.getElementById("K_O");
         dialog.show();
         dialog.setAttribute("open","true")
@@ -192,7 +195,7 @@ function Fight() {
         const pattern = Math.floor(Math.random() * 2) + 1
 
         if (pattern == "1") {
-          damage = Math.floor(Math.random() * 5) + 1 * E_PowerW
+          damage = Math.floor(Math.random() * 5) + 1
           alert(`${document.getElementById("Ename").textContent}は悪口を言ってきた`)
           if (MODE == "カウンター") {
             damage = damage * 2
@@ -269,7 +272,7 @@ function Fight() {
           const pattern = Math.floor(Math.random() * 10) + 1
 
           if (pattern == "1") {
-            damage = Math.floor(Math.random() * 25) + 20 * Attack * E_Power
+            damage = Math.floor(Math.random() * 25) + 30 * Attack * E_Power
             alert(`${document.getElementById("Ename").textContent}は闇魔法を放ってきた`)
             if (MODE == "回避")  {
               alert('しかし、技を察知して回避した')
@@ -297,7 +300,7 @@ function Fight() {
             E_HP = E_HP + recoverly
 
           } else if (pattern == "4") {
-            damage = Math.floor(Math.random() * 20) + 50 * Attack * E_Power
+            damage = Math.floor(Math.random() * 20) + 80 
             alert(`${document.getElementById("Ename").textContent}は正拳突きを放ってきた`)
             if (MODE == "カウンター") {
               damage = damage * 2
@@ -425,6 +428,16 @@ function Fight() {
                 alert(`${document.getElementById("Ename").textContent}は${recoverly}回復した`)
                 E_HP = E_HP + recoverly
         
+                
+              } else if (N == "5") {
+                damage = Math.floor(Math.random() * 50) + 100
+                alert(`${document.getElementById("Ename").textContent}はカウンターと回避を読む攻撃を仕掛けた`)
+                if (MODE == "カウンター" || MODE == "回避" || MODE == "回復") {
+                  My_HP = My_HP - damage
+                  alert(`カウンターを読まれて${damage}のダメージを受けた`)
+                } else {
+                  alert('しかし、当たらなかった')
+                };
                 cycle = Math.floor(Math.random() * 3) + 1;  
                 N = 1
               }
@@ -564,7 +577,7 @@ function Fight() {
           if (cycle == "1") {
             if (N == "1") {
               alert("???は即死攻撃を放ってきた")
-              damage = My_HP * 10
+              damage = Math.round(My_HP * 10)
               if (MODE == "カウンター") {
                 damage = damage * 2
                 alert(`あなたは${damage}のダメージを跳ね返した`)
@@ -590,7 +603,7 @@ function Fight() {
       
             } else if (N == "3") {
               alert("???は即死攻撃を放ってきた")
-              damage = My_HP * 10
+              damage = Math.round(My_HP * 10)
               if (MODE == "カウンター") {
                 damage = damage * 2
                 alert(`あなたは${damage}のダメージを跳ね返した`)
@@ -638,7 +651,7 @@ function Fight() {
       
             } else if (N == "3") {
               alert("???は即死攻撃を放ってきた")
-              damage = My_HP * 10
+              damage = Math.round(My_HP * 10)
               if (MODE == "カウンター") {
                 damage = damage * 2
                 alert(`あなたは${damage}のダメージを跳ね返した`)
@@ -652,7 +665,7 @@ function Fight() {
       
             } else if (N == "4") {
               alert("???は即死攻撃を放ってきた")
-              damage = My_HP * 10
+              damage = Math.round(My_HP * 10)
               if (MODE == "カウンター") {
                 damage = damage * 2
                 alert(`あなたは${damage}のダメージを跳ね返した`)
