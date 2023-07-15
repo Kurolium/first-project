@@ -10,6 +10,7 @@ let N = 1
 let M = "off"
 let P_Turn = 0
 let B_turn = 0
+let MODE = "noraml"
 
 function rules() {
   const dialog = document.getElementById("rules");
@@ -92,7 +93,7 @@ function Fight() {
     }
   }
   
-  let MODE = "noraml"
+  MODE = "noraml"
 
   const elementToCheck = text; // 調べたい要素名を指定してください
   
